@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10sp"
+    android:background="#5A0AEF"
+    android:padding="10sp">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:src="@drawable/shop" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30sp"
+        android:layout_toRightOf="@+id/photo"
+        android:text="상품이름"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginLeft="30sp"
+        android:layout_toRightOf="@+id/photo"
+        android:text="상품 가격" />
+
+    <android.widget.Button
+        android:id="@+id/btn"
+        android:layout_width="100sp"
+        android:layout_height="60sp"
+
+        android:layout_alignParentRight="true"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="주문"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+</RelativeLayout>

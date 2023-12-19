@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="foods">
+        <item>짜장면</item>
+        <item>우동</item>
+        <item>짬뽐</item>
+        <item>마라탕</item>
+        <item>탕수육</item>
+        <item>가지튀김</item>
+    </string-array>
+</resources>
