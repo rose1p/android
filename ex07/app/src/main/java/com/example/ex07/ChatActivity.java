@@ -109,6 +109,13 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                ChatVO vo = snapshot.getValue(ChatVO.class);
+                for(ChatVO chat:array) {
+                    if(chat.getKey().equals(vo.getKey())) {
+                        array.remove(chat);
+                        break;
+                    }
+                }
                 adapter.notifyDataSetChanged();
             }
 
@@ -148,30 +155,37 @@ public class ChatActivity extends AppCompatActivity {
             holder.txtContent.setText(vo.getContents());
             holder.txtDate.setText(vo.getDate());
             holder.txtEmail.setText(vo.getEmail());
+
             LinearLayout.LayoutParams pcontents = (LinearLayout.LayoutParams) holder.txtContent.getLayoutParams();
             LinearLayout.LayoutParams pdate = (LinearLayout.LayoutParams) holder.txtDate.getLayoutParams();
 
             if (vo.getEmail().equals(user.getEmail())) {
-                holder.txtEmail.setVisibility(View.GONE);
                 pcontents.gravity = Gravity.RIGHT;
                 pdate.gravity = Gravity.RIGHT;
+                holder.txtEmail.setVisibility(View.GONE);
+            }else {
+                pcontents.gravity = Gravity.LEFT;
+                pdate.gravity = Gravity.LEFT;
+                holder.txtEmail.setVisibility(View.VISIBLE);
             }
 
+            //내용을 길개 눌렀을때
             holder.txtContent.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    AlertDialog.Builder box = new AlertDialog.Builder(ChatActivity.this);
-                    box.setTitle("메뉴를 선택해주세요");
-                    box.setItems(new String[]{"삭제", "취소"}, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if(which == 0) {
-                                db.getReference("chat/" + vo.getKey()).removeValue();
-                                array.remove(vo);
+                    if(vo.getEmail().equals(user.getEmail())) {
+                        AlertDialog.Builder box = new AlertDialog.Builder(ChatActivity.this);
+                        box.setTitle("메뉴를 선택하세요");
+                        box.setItems(new String[]{"삭제", "취소"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(which == 0) {
+                                    db.getReference("chat/" + vo.getKey()).removeValue();
+                                }
                             }
-                        }
-                    });
-                    box.show();
+                        });
+                        box.show();
+                    }
                     return false;
                 }
             });
