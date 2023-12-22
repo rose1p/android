@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -67,16 +70,17 @@ public class ShopActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         array.clear();
-                        for(QueryDocumentSnapshot doc:task.getResult()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
                             ShopVO vo = new ShopVO();
                             vo.setId(doc.getId());
                             vo.setTitle(doc.getData().get("title").toString());
                             vo.setPrice(Integer.parseInt(doc.getData().get("price").toString()));
                             vo.setDate(doc.getData().get("date").toString());
                             vo.setEmail(doc.getData().get("email").toString());
+                            vo.setImage(doc.getData().get("image").toString());
                             array.add(vo);
                         }
-                        System.out.println("데이터 개수:" + array.size());
+                        //System.out.println("데이터 개수:" + array.size());
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -113,6 +117,17 @@ public class ShopActivity extends AppCompatActivity {
             DecimalFormat df = new DecimalFormat("#,###원");
             holder.price.setText(df.format(vo.getPrice()));
             holder.date.setText(vo.getDate());
+            Picasso.with(ShopActivity.this).load(vo.getImage()).into(holder.image);
+
+            holder.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ShopActivity.this, ReadActivity.class);
+                    intent.putExtra("id", vo.getId());
+                    startActivity(intent);
+
+                }
+            });
         }
 
         @Override
@@ -124,12 +139,19 @@ public class ShopActivity extends AppCompatActivity {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, price, date, email;
+
+        ImageView image;
+
+        RelativeLayout item;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             price = itemView.findViewById(R.id.price);
             email = itemView.findViewById(R.id.email);
             date = itemView.findViewById(R.id.date);
+            image = itemView.findViewById(R.id.image);
+            item = itemView.findViewById(R.id.item);
         }
     }
 }
