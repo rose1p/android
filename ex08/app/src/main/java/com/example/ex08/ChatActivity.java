@@ -122,7 +122,7 @@ public class ChatActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
 
-            
+
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
